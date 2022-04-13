@@ -10,12 +10,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-public class DruidUtil {
+public class JDBCUtilByDruid {
     private static DataSource ds;
 
     // 在静态代码块初始化
     static {
-        InputStream resourceAsStream = DruidUtil.class.getClassLoader().getResourceAsStream("druid.properties");
+        InputStream resourceAsStream = JDBCUtilByDruid.class.getClassLoader().getResourceAsStream("druid.properties");
         Properties properties = new Properties();
         try {
             properties.load(resourceAsStream);

@@ -1,16 +1,11 @@
 package druidTest;
 
-import com.alibaba.druid.pool.DruidDataSourceFactory;
-import com.template.utils.DruidUtil;
+import com.template.utils.JDBCUtilByDruid;
 import org.junit.jupiter.api.Test;
 
-import javax.sql.DataSource;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.sql.*;
-import java.util.Properties;
 
-public class DruidUtilTest {
+public class JDBCUtilByDruidTest {
 
     @Test
     public void testSelect() {
@@ -23,7 +18,7 @@ public class DruidUtilTest {
         ResultSet resultSet = null;
         //3.创建PreparedStatement对象
         try {
-            connection = DruidUtil.getConnection();
+            connection = JDBCUtilByDruid.getConnection();
             System.out.println(connection.getClass());  // 运行类型class com.alibaba.druid.pool.DruidPooledConnection
             preparedStatement = connection.prepareStatement(sql);
             // 执行,得到结果集
@@ -40,7 +35,7 @@ public class DruidUtilTest {
             e.printStackTrace();
         } finally {
             // 关闭资源
-            DruidUtil.close(resultSet, preparedStatement, connection);
+            JDBCUtilByDruid.close(resultSet, preparedStatement, connection);
         }
     }
 }
