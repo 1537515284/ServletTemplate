@@ -10,6 +10,8 @@ import java.io.IOException;
 public class HelloServlet extends ViewBaseServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("sourcing","https://github.com/1537515284/ServletTemplate.git");
+        request.setAttribute("thymeleafHelp","https://blog.csdn.net/weixin_45636641/article/details/108249715");
         process("hello",request,response);
     }
 }
