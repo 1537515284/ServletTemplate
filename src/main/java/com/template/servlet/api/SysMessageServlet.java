@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "sysMsg",value = {"/systemMessage"})
 public class SysMessageServlet extends HttpServlet {
@@ -21,21 +23,38 @@ public class SysMessageServlet extends HttpServlet {
 
         ServletContext context = this.getServletContext();
 
-        Integer usersNum = (Integer) context.getAttribute("usersNum");
-        if (usersNum == null) usersNum = 0;
-
         HttpSession session = request.getSession();
-        Integer curUsersNum = (Integer) session.getAttribute("curUsersNum");
-        if (curUsersNum == null) curUsersNum = 0;
 
 
+        List userList = (List) context.getAttribute("users");
+        List usersSession = (List) session.getAttribute("usersSession");
+        if(usersSession == null){
+            usersSession = new ArrayList(userList);
+            session.setAttribute("usersSession",usersSession);
+        }
+
+        int usersNum = userList.size();
+        int curUsersNum = usersSession.size();
+
+//        System.out.println(userList == usersSession);
+//
+//        System.out.println("userList = "+userList);
+//        System.out.println("userSession = "+usersSession);
+//
+//        System.out.println("userNum = "+usersNum);
+//        System.out.println("curUsersNum = "+curUsersNum);
 
         RestBean<List> restBean;
+        // 在线用户人数发生变化
         if (usersNum > curUsersNum) {
-            List userList = (List) context.getAttribute("users");
-            List list = userList.subList(curUsersNum, usersNum);
-            session.setAttribute("curUsersNum", usersNum);
-            restBean = new RestBean<>(200, "消息接收成功!", list);
+            List finalUsersSession = usersSession;
+            List reduce = (List) userList.stream().filter(item -> !finalUsersSession.contains(item)).collect(Collectors.toList());
+            usersSession.addAll(reduce);
+            restBean = new RestBean<>(200, "消息接收成功!", reduce);
+        }else if(usersNum < curUsersNum){
+            List reduce = (List) usersSession.stream().filter(item -> !userList.contains(item)).collect(Collectors.toList());
+            usersSession.removeAll(reduce);
+            restBean = new RestBean<>(201, "消息接收成功!", reduce);
         } else {
             restBean = new RestBean<>(204, "没有新消息!");
         }

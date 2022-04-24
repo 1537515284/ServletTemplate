@@ -31,9 +31,9 @@ function post(url, data, success,async){
 /**
  * 登录  同步请求
  */
-function login(username,password){
+function login(username,password,userPortrait){
     $.post("/login",
-        {"username":username,"password":password},
+        {"username":username,"password":password,"userPortrait":userPortrait},
         function(data){
             if(data.code === 200) {
                 window.location.href = 'room.html'; // 页面跳转
@@ -81,7 +81,7 @@ function getUserNickName(){
 /**
  * 获取在线用户列表    同步请求 ---初始化调用
  */
-function getOnlineList(){
+function getInitOnlineList(){
     let userList = "";
     get("/user-onlineList",function (data){
         if(data.code === 200){

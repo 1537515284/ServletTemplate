@@ -2,17 +2,17 @@
 $(document).ready(function(){
 	let nickname = null;
 	let userList = null;
-	let userPortrait = null;
+	let thisUserPortrait = null;
 
 	init();
 
 	function init(){
 		// 获取用户昵称 和 在线用户列表
 		nickname = getUserNickName();
-		userList = getOnlineList();
+		userList = getInitOnlineList();
 
 		// 获取用户头像信息
-		userPortrait =  $.cookie("userPortrait");
+		thisUserPortrait =  $.cookie("userPortrait");
 
 		// 初始化用户昵称
 		$("#nickname").text(nickname);
@@ -20,7 +20,7 @@ $(document).ready(function(){
 		flush_userList(userList);
 
 
-
+		getOnlineList();
 		getMessage();
 		getSysMsg();
 	}
@@ -33,7 +33,7 @@ $(document).ready(function(){
 			if(data.code === 200){
 				let msgList = data.data;
 				for (let msg of msgList) {
-					flush_message(msg.sender_nickname, userPortrait, msg.content,msg.time);
+					flush_message(msg.sender_nickname, msg.userPortrait, msg.content,msg.time);
 				}
 			}
 			setTimeout(getMessage,2000);
@@ -41,19 +41,37 @@ $(document).ready(function(){
 	}
 
 	/**
-	 * 接收系统消息
+	 * 接收系统消息  xx上线 xx离线
 	 */
 	function getSysMsg(){
 		get("/systemMessage",function (data){
 			if(data.code === 200){
 				let msgList = data.data;
 				for (let msg of msgList) {
-					sys_message(msg.nickname);
+					sys_message(msg.nickname,true);
 				}
-				flush_userList(msgList);
+				// flush_userList(msgList);
+			}else if(data.code === 201){
+				let msgList = data.data;
+				for (let msg of msgList) {
+					sys_message(msg.nickname,false);
+				}
 			}
 			setTimeout(getSysMsg,2000);
 		},true)
+	}
+
+	/**
+	 * 获取在线用户列表    异步请求
+	 */
+	function getOnlineList(){
+		get("/user-onlineList",function (data){
+			if(data.code === 200){
+				let list = data.data;
+				flush_userList(list);
+			}
+			setTimeout(getOnlineList,2000);
+		},true);
 	}
 
 
@@ -77,7 +95,7 @@ $(document).ready(function(){
 		var str = '<img src="images/chatimg/' + '1/201503/agafsdfeaef.jpg' +'" />'
 
 		let time = curTime();
-		sends_message(nickname, userPortrait, str,curTime()); // sends_message(昵称,头像id,聊天内容);
+		sends_message(nickname, thisUserPortrait, str,curTime()); // sends_message(昵称,头像id,聊天内容);
 
 
 		// 滚动条滚到最下面
@@ -100,7 +118,7 @@ $(document).ready(function(){
 			// 异步发送消息
 			let time = curTime();
 			sendMessage(str,time);
-			sends_message(nickname, userPortrait, str,time); // sends_message(昵称,头像id,聊天内容);
+			sends_message(nickname, thisUserPortrait, str,time); // sends_message(昵称,头像id,聊天内容);
 
 			// 滚动条滚到最下面
 			$('.scrollbar-macosx.scroll-content.scroll-scrolly_visible').animate({
@@ -186,24 +204,21 @@ $(document).ready(function(){
 		}
 	}
 
-	function sys_message (nickname) {
+	function sys_message (nickname,flag) {
+		let msg = flag ? '加入了房间' : '离开了房间';
 		if(nickname!='') {
 			$('.main .chat_info').html($('.main .chat_info').html() + '<li class="systeminfo">' +
-				'<span>【<span class="text-success" style="display: inline">'+ nickname +'</span> 】 加入了房间</span> </li>');
+				'<span>【<span class="text-success" style="display: inline">'+ nickname +'</span> 】 '+msg+'</span> </li>');
 		}
 	}
 
 
 	function flush_userList(userList){
-		// 初始化在线用户列表
-		let curNum = Number($("#userCount").text());
-		if(isNaN(curNum))
-			curNum = 0;
-		let count =  curNum + userList.length;
+		let count = userList.length;
 		$("#userCount").text(count);
+		$("#userList").html("");
 		for (let userListElement of userList) {
-			$("#userList").html($("#userList").html()
-				+ "<li> <img src='images/user/12.png' alt='portrait_1'> <b>" +userListElement.nickname+"</b> </li>");
+			$("#userList").html($("#userList").html()+"<li> <img src='images/user/"+ userListElement.userPortrait +".png' alt='portrait_1'> <b>" + userListElement.nickname + "</b> </li>");
 		}
 	}
 

@@ -18,7 +18,7 @@ $(document).ready(function(){
             alert("用户名或密码不能为空!");
             return;
         }
-        login(username,password);
+        login(username,password,userPortrait);
     });
 
 

@@ -1,5 +1,6 @@
 package com.template.servlet.api;
 
+import com.template.entity.UserDTO;
 import com.template.entity.resp.RestBean;
 import com.template.utils.FastJsonUtils;
 
@@ -26,10 +27,10 @@ public class UserServlet extends HttpServlet {
     }
 
     private void getNickName(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        Object nickname = request.getSession().getAttribute("nickname");
+        UserDTO userDTO = (UserDTO) request.getSession().getAttribute("user");
         RestBean<String > restBean;
-        if(nickname != null){
-            restBean = new RestBean<>(200,"获取用户昵称成功",nickname.toString());
+        if(userDTO != null){
+            restBean = new RestBean<>(200,"获取用户昵称成功", userDTO.getNickname());
         }else {
             restBean = new RestBean<>(401,"请先登录");
         }

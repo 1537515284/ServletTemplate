@@ -3,6 +3,7 @@ package com.template.servlet.api;
 import com.template.entity.Message;
 import com.template.entity.MessageDTO;
 import com.template.entity.User;
+import com.template.entity.UserDTO;
 import com.template.entity.resp.RestBean;
 import com.template.utils.FastJsonUtils;
 
@@ -26,6 +27,7 @@ public class MessageServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         Integer oldListLength = (Integer) session.getAttribute("oldListLength");
+
         Integer listLength = (Integer) context.getAttribute("listLength");
 
         if (oldListLength == null) {
@@ -38,7 +40,8 @@ public class MessageServlet extends HttpServlet {
         if (listLength > oldListLength) {
             List messageList = (List) context.getAttribute("messageList");
             List list = messageList.subList((int) oldListLength, (int) listLength);
-            List filterList = filterOwnMsg(list,(String) session.getAttribute("username"));
+            UserDTO userDTO = (UserDTO) session.getAttribute("user");
+            List filterList = filterOwnMsg(list, userDTO.getUsername());
             session.setAttribute("oldListLength",listLength);
 
             if(filterList.isEmpty())
@@ -73,13 +76,12 @@ public class MessageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = (String) request.getSession().getAttribute("username");
-        String nickname = (String) request.getSession().getAttribute("nickname");
+        UserDTO userDTO = (UserDTO) request.getSession().getAttribute("user");
 
 
         String content = request.getParameter("message");
         String time = request.getParameter("time");
-        MessageDTO message = new MessageDTO(username,nickname,content,time);
+        MessageDTO message = new MessageDTO(userDTO.getUsername(), userDTO.getNickname(), userDTO.getUserPortrait(),content,time);
         ServletContext context = this.getServletContext();
         List messageList = (List)context.getAttribute("messageList");
         if (messageList == null) {

@@ -4,12 +4,14 @@ public class MessageDTO {
 
     private String sender_username;
     private String sender_nickname;
+    private Integer userPortrait;
     private String content;
     private String time;
 
-    public MessageDTO(String sender_username, String sender_nickname, String content, String time) {
+    public MessageDTO(String sender_username, String sender_nickname, Integer userPortrait, String content, String time) {
         this.sender_username = sender_username;
         this.sender_nickname = sender_nickname;
+        this.userPortrait = userPortrait;
         this.content = content;
         this.time = time;
     }
@@ -28,6 +30,14 @@ public class MessageDTO {
 
     public void setSender_nickname(String sender_nickname) {
         this.sender_nickname = sender_nickname;
+    }
+
+    public Integer getUserPortrait() {
+        return userPortrait;
+    }
+
+    public void setUserPortrait(Integer userPortrait) {
+        this.userPortrait = userPortrait;
     }
 
     public String getContent() {

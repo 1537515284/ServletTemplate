@@ -2,6 +2,7 @@ package com.template.servlet.api;
 
 
 import com.template.entity.User;
+import com.template.entity.UserDTO;
 import com.template.entity.resp.RestBean;
 import com.template.service.UserService;
 import com.template.service.impl.UserServiceImpl;
@@ -28,6 +29,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        int userPortrait = Integer.parseInt(request.getParameter("userPortrait"));
 
         String usernameSession = (String) request.getSession().getAttribute("username");
 
@@ -44,14 +46,12 @@ public class LoginServlet extends HttpServlet {
                     userList = new ArrayList<>();
                     context.setAttribute("users", userList);
                 }
-                userList.add(user);
+                UserDTO userDTO = new UserDTO(user.getUsername(),user.getNickname(),userPortrait);
+                userList.add(userDTO);
 
-                context.setAttribute("usersNum", userList.size());
 
                 // 保存用户信息...
-                request.getSession().setAttribute("nickname", user.getNickname());
-                request.getSession().setAttribute("username", user.getUsername());
-                request.getSession().setAttribute("curUsersNum", userList.size());
+                request.getSession().setAttribute("user", userDTO);
 
                 restBean = new RestBean<>(200, "登录成功!");
             } else {

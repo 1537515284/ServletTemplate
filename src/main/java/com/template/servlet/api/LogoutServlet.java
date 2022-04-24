@@ -1,6 +1,7 @@
 package com.template.servlet.api;
 
 import com.template.entity.User;
+import com.template.entity.UserDTO;
 import com.template.entity.resp.RestBean;
 import com.template.utils.FastJsonUtils;
 
@@ -24,9 +25,9 @@ public class LogoutServlet extends HttpServlet {
         if (session == null) {
             restBean = new RestBean<>(401,"请先登录!");
         }else {
-            String  username = (String) session.getAttribute("username");
+            UserDTO userDTO = (UserDTO) session.getAttribute("user");
             session.invalidate();
-            deleteFromUserList(request,username);
+            deleteFromUserList(request, userDTO.getUsername());
             restBean = new RestBean<>(200,"退出登录成功");
         }
 
@@ -41,8 +42,8 @@ public class LogoutServlet extends HttpServlet {
         List userList = (List) context.getAttribute("users");
 
         for (int i = 0; i < userList.size(); i++) {
-            User user = (User)userList.get(i);
-            if(user.getUsername().equals(username)) {
+            UserDTO userDTO = (UserDTO) userList.get(i);
+            if(userDTO.getUsername().equals(username)) {
                 userList.remove(i);
                 context.setAttribute("usersNum",userList.size());
                 break;
