@@ -6,6 +6,9 @@ import com.alibaba.fastjson.serializer.JSONLibDataFormatSerializer;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -129,4 +132,15 @@ public class FastJsonUtils {
         });
     }
 
+    /**
+     * 功能描述：通过Response输出JSON字符串
+     * @param res
+     * @param response
+     * @throws IOException
+     */
+    public static void writeJson(Result res, HttpServletResponse response) throws IOException {
+        String s = FastJsonUtils.toJSONString(res);
+        response.setContentType("application/json;charset=utf-8");
+        response.getWriter().print(s);
+    }
 }
