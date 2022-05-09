@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>首页 - 光年(Light Year Admin V4)后台管理系统模板</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="stylesheet" type="text/css" href="static/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/style.min.css">
+    <link rel="stylesheet" type="text/css" href="static/js/jquery-confirm/jquery-confirm.min.css">
+</head>
+
+<body>
+<!--页面loading-->
+<div id="lyear-preloader" class="loading">
+    <div class="ctn-preloader">
+        <div class="round_spinner">
+            <div class="spinner"></div>
+            <img src="static/images/loading-logo.png" alt="">
+        </div>
+    </div>
+</div>
+<!--页面loading end-->
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+        <!--左侧导航-->
+        <aside class="lyear-layout-sidebar">
+
+            <!-- logo -->
+            <div id="logo" class="sidebar-header">
+                <a href="index.html"><img src="static/images/logo-sidebar.png" title="LightYear" alt="LightYear" /></a>
+            </div>
+            <div class="lyear-layout-sidebar-info lyear-scroll">
+
+                <nav class="sidebar-main">
+                    <ul class="nav-drawer">
+                        <li class="nav-item active"> <a href="index.html"><i class="mdi mdi-home"></i> <span>后台首页</span></a> </li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-main">
+                    <ul class="nav-drawer">
+                        <li class="nav-item"> <a href="shop.html"><i class="mdi mdi-store"></i> <span>商店</span></a> </li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-main">
+                    <ul class="nav-drawer">
+                        <li class="nav-item"> <a href="cart.html"><i class="mdi mdi-cart"></i> <span>购物车</span></a> </li>
+                    </ul>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <p class="copyright">Copyright &copy; 2022. <a target="_blank" href="https://www.baidu.com">LS</a> All rights reserved.</p>
+                </div>
+            </div>
+
+        </aside>
+        <!--End 左侧导航-->
+
+        <!--头部信息-->
+        <header class="lyear-layout-header">
+
+            <nav class="navbar">
+
+                <div class="navbar-left">
+                    <div class="lyear-aside-toggler">
+                        <span class="lyear-toggler-bar"></span>
+                        <span class="lyear-toggler-bar"></span>
+                        <span class="lyear-toggler-bar"></span>
+                    </div>
+                </div>
+
+                <ul class="navbar-right d-flex align-items-center">
+                    <li class="dropdown dropdown-profile">
+                        <a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">
+                            <img class="img-avatar img-avatar-48 m-r-10" src="static/images/users/avatar.jpg" alt="笔下光年" />
+                            <span>笔下光年</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a class="dropdown-item" href="lyear_pages_profile.html"><i class="mdi mdi-account"></i> 个人信息</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="lyear_pages_edit_pwd.html"><i class="mdi mdi-lock-outline"></i> 修改密码</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript:void(0)"><i class="mdi mdi-delete"></i> 清空缓存</a>
+                            </li>
+                            <li class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="lyear_pages_login_1.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </nav>
+
+        </header>
+        <!--End 头部信息-->
+
+        <!--页面主要内容-->
+        <main class="lyear-layout-content">
+
+            <div class="container-fluid p-t-15">
+
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="card">
+                            <div class="card-toolbar d-flex flex-column flex-md-row">
+                                <div class="toolbar-btn-action">
+                                    <a class="btn btn-warning ajax-post m-r-5" href="#!"><i class="mdi mdi-block-helper"></i>批量结算</a>
+                                    <a class="btn btn-danger ajax-post confirm" href="/api/cart/del" target-form="ids"><i class="mdi mdi-window-close"></i>批量删除</a>
+                                </div>
+
+                                <form class="search-bar ml-md-auto" method="get" action="#!" role="form">
+                                    <input type="hidden" name="search_field" id="search-field" value="title" />
+                                    <div class="input-group ml-md-auto">
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="search-btn">标题</button>
+                                            <div class="dropdown-menu" style="">
+                                                <a class="dropdown-item" href="#!" data-field="title">标题</a>
+                                                <a class="dropdown-item" href="#!" data-field="cat_name">栏目</a>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" name="keyword" placeholder="请输入名称">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-toolbar d-flex flex-column flex-md-row">
+                                <h3> 最爱购物车</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="check-all">
+                                                    <label class="custom-control-label" for="check-all"></label>
+                                                </div>
+                                            </th>
+                                            <th>编号</th>
+                                            <th>书籍</th>
+                                            <th>作者</th>
+                                            <th>价格</th>
+                                            <th>数量</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="bookList">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+        <!--End 页面主要内容-->
+    </div>
+</div>
+
+<script type="text/javascript" src="static/js/jquery.min.js"></script>
+<script type="text/javascript" src="static/js/popper.min.js"></script>
+<script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="static/js/lyear-loading.js"></script>
+<script type="text/javascript" src="static/js/bootstrap-notify.min.js"></script>
+<script type="text/javascript" src="static/js/jquery-confirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="static/js/main.min.js"></script>
+<script src="static/js/api.js"></script>
+<script>
+
+
+    $(document).ready(function (){
+        init();
+        function init() {
+            get("/api/cart",function (data){
+                if(data.code === 200){
+                    flushList(data.data);
+                }
+            });
+        }
+
+        function flushList(bookList){
+            for (let book of bookList) {
+                $("#bookList").html($("#bookList").html()
+                + '<tr>'
+                + '<td>'
+                +        '<div class="custom-control custom-checkbox">'
+                +             '<input type="checkbox" class="custom-control-input ids" name="ids[]" value="'+book.id+'" id="ids-'+book.id+'">'
+                +                 '<label class="custom-control-label" for="ids-'+book.id+'"></label>'
+                +         '</div>'
+                + '</td>'
+                +  '<td>'+book.id+'</td>'
+                +     '<td>《'+book.title+'》</td>'
+                +     '<td>'+book.author+'</td>'
+                +     '<td>'+book.price+'</td>'
+                +     '<td>'+book.nums+'</td>'
+                +     '<td>'
+                +         '<div class="btn-group">'
+                +             '<a class="btn btn-xs btn-default" href="javascript:void(0);" onclick="settleCart('+book.id+')" title="" data-toggle="tooltip"'
+                +                'data-original-title="购买"><i class="mdi mdi-18px mdi-cart-plus"></i></a>'
+                +             '<a class="btn btn-xs btn-default" href="javascript:void(0);" onclick="delCart('+book.id+')" title=""'
+                +                'data-toggle="tooltip" data-original-title="移除"><i class="mdi mdi-18px mdi-cart-minus"></i></a>'
+                +         '</div>'
+                +     '</td>'
+                + '</tr>')
+            }
+        }
+
+    })
+
+</script>
+<script type="text/javascript">
+    $(function(){
+        $('.search-bar .dropdown-menu a').click(function() {
+            var field = $(this).data('field') || '';
+            $('#search-field').val(field);
+            $('#search-btn').html($(this).text());
+        });
+
+        // 通用ajax post请求
+        jQuery(document).delegate('.ajax-post', 'click', function(){
+            var self        = jQuery(this), tips = self.data('tips'), ajax_url = self.attr("href") || self.data("url");
+            var target_form = self.attr('target-form');
+            var text        = self.data('tips');
+            var form        = jQuery('form[name="'+ target_form +'"]');
+
+            if (form.length == 0) {
+                form = jQuery('.' + target_form);
+            }
+
+            var form_data = form.serialize();
+            if ('submit' == self.attr('type') || ajax_url) {
+                if (void 0 == form.get(0)) return false;
+
+                // 如果节点是FORM表单
+                if ('FORM' == form.get(0).nodeName) {
+                    ajax_url = ajax_url || form.get(0).action;
+
+                    // 确认提交
+                    if (self.hasClass('confirm')) {
+                        $.confirm({
+                            title: '',
+                            content: tips || '确认要执行该操作吗？',
+                            type: 'orange',
+                            typeAnimated: true,
+                            buttons: {
+                                confirm: {
+                                    text: '确认',
+                                    btnClass: 'btn-blue',
+                                    action: function() {
+                                        var loader = $('body').lyearloading({
+                                            opacity: 0.2,
+                                            spinnerSize: 'lg'
+                                        });
+                                        self.attr('autocomplete', 'off').prop('disabled', true);
+                                        ajaxPostFun(self, ajax_url, form_data, loader);
+                                    }
+                                },
+                                cancel: {
+                                    text: '取消',
+                                    action: function() {}
+                                }
+                            }
+                        });
+                        return false;
+                    } else {
+                        self.attr("autocomplete", "off").prop("disabled", true);
+                    }
+                } else if ('INPUT' == form.get(0).nodeName || 'SELECT' == form.get(0).nodeName || 'TEXTAREA' == form.get(0).nodeName) {
+                    console.log("6666666")
+
+                    // 复选框判断是否有选择项
+                    if (form.get(0).type == 'checkbox' && form_data == '') {
+                        showNotify('请选择您要操作的数据', 'danger');
+                        return false;
+                    }
+                    if (self.hasClass('confirm')) {
+                        $.confirm({
+                            title: '',
+                            content: tips || '确认要执行该操作吗？',
+                            type: 'orange',
+                            typeAnimated: true,
+                            buttons: {
+                                confirm: {
+                                    text: '确认',
+                                    btnClass: 'btn-blue',
+                                    action: function() {
+                                        var loader = $('body').lyearloading({
+                                            opacity: 0.2,
+                                            spinnerSize: 'lg'
+                                        });
+                                        self.attr('autocomplete', 'off').prop('disabled', true);
+
+                                        ajaxPostFun(self, ajax_url, form_data, loader);
+                                    }
+                                },
+                                cancel: {
+                                    text: '取消',
+                                    action: function() {}
+                                }
+                            }
+                        });
+                        return false;
+                    } else {
+                        self.attr("autocomplete", "off").prop("disabled", true);
+                    }
+                } else {
+                    if (self.hasClass('confirm')) {
+                        $.confirm({
+                            title: '',
+                            content: tips || '确认要执行该操作吗？',
+                            type: 'orange',
+                            typeAnimated: true,
+                            buttons: {
+                                confirm: {
+                                    text: '确认',
+                                    btnClass: 'btn-blue',
+                                    action: function() {
+                                        var loader = $('body').lyearloading({
+                                            opacity: 0.2,
+                                            spinnerSize: 'lg'
+                                        });
+                                        self.attr('autocomplete', 'off').prop('disabled', true);
+
+                                        ajaxPostFun(self, ajax_url, form_data, loader);
+                                    }
+                                },
+                                cancel: {
+                                    text: '取消',
+                                    action: function() {}
+                                }
+                            }
+                        });
+                        return false;
+                    } else {
+                        form_data = form.find("input,select,textarea").serialize();
+                        self.attr("autocomplete", "off").prop("disabled", true);
+                    }
+                }
+
+                var loader = $('body').lyearloading({
+                    opacity: 0.2,
+                    spinnerSize: 'lg'
+                });
+                ajaxPostFun(self, ajax_url, form_data, loader);
+
+                return false;
+            }
+        });
+
+        // 通用ajax get请求
+        jQuery(document).delegate('.ajax-get', 'click', function(){
+            var self = $(this), tips = self.data('tips'), ajax_url = self.attr("href") || self.data("url");
+
+            if (self.hasClass('confirm')) {
+                $.confirm({
+                    title: '',
+                    content: tips || '确认要执行该操作吗？',
+                    type: 'orange',
+                    typeAnimated: true,
+                    buttons: {
+                        confirm: {
+                            text: '确认',
+                            btnClass: 'btn-blue',
+                            action: function() {
+                                var loader = $('body').lyearloading({
+                                    opacity: 0.2,
+                                    spinnerSize: 'lg'
+                                });
+                                self.attr('autocomplete', 'off').prop('disabled', true);
+
+                                ajaxGetFun(self, ajax_url, loader);
+                            }
+                        },
+                        cancel: {
+                            text: '取消',
+                            action: function() {}
+                        }
+                    }
+                });
+                return false;
+            } else {
+                var loader = $('body').lyearloading({
+                    opacity: 0.2,
+                    spinnerSize: 'lg'
+                });
+                self.attr('autocomplete', 'off').prop('disabled', true);
+
+                ajaxGetFun(self, ajax_url, loader);
+            }
+            return false;
+        });
+
+        // POST提交处理
+        function ajaxPostFun(selfObj, ajax_url, form_data, loader) {
+            console.log('url==>'+ajax_url);
+            console.log('form_data==>'+form_data);
+            // setTimeout(function() {
+            //     loader.destroy();
+            //     showNotify('修改成功，页面即将自动跳转~', 'success', 1000);
+            //     selfObj.attr("autocomplete", "on").prop("disabled", false);
+            // }, 1e3);
+            // 这里屏蔽get提交，js模拟返回成功，正常使用时请删除上面的内容，打开下面的注释代码
+            jQuery.post(ajax_url, form_data).done(function(res) {
+                loader.destroy();
+                var res = eval('(' + res + ')');
+                var msg = res.msg;
+                if (200 == res.code) {
+                    if (res.url && !selfObj.hasClass('no-refresh')) {
+                        msg += '页面即将自动跳转';
+                    }
+                    showNotify(msg, 'info');
+                    setTimeout(function () {
+                        selfObj.attr("autocomplete", "on").prop("disabled", false);
+                        return selfObj.hasClass("no-refresh") ? false : (res.url ? location.href = res.url : location.reload());
+                    }, 1500);
+                } else {
+                    showNotify(msg, 'danger');
+                    selfObj.attr("autocomplete", "on").prop("disabled", false);
+                }
+            }).fail(function () {
+                loader.destroy();
+                showNotify('服务器发生错误，请稍后再试', 'danger');
+                selfObj.attr("autocomplete", "on").prop("disabled", false);
+            });
+
+        }
+
+        // GET提交处理
+        function ajaxGetFun(selfObj, ajax_url, loader) {
+            console.log(ajax_url);
+            setTimeout(function() {
+                loader.destroy();
+                showNotify('修改成功，页面即将自动跳转~', 'success', 1000);
+                selfObj.attr("autocomplete", "on").prop("disabled", false);
+            }, 1e3);
+            // 这里屏蔽get提交，js模拟返回成功，正常使用时请删除上面的内容，打开下面的注释代码
+            /*
+            jQuery.get(ajax_url).done(function(res) {
+                loader.destroy();
+                var res = eval('(' + res + ')');
+                var msg = res.msg;
+                if (200 == res.code) {
+                    if (res.url && !selfObj.hasClass('no-refresh')) {
+                        msg += '页面即将自动跳转';
+                    }
+                    showNotify(msg, 'info');
+                    setTimeout(function () {
+                        selfObj.attr("autocomplete", "on").prop("disabled", false);
+                        return selfObj.hasClass("no-refresh") ? false : (res.url ? location.href = res.url : location.reload());
+                    }, 1500);
+                } else {
+                    showNotify(msg, 'danger');
+                    selfObj.attr("autocomplete", "on").prop("disabled", false);
+                }
+            }).fail(function () {
+                loader.destroy();
+                showNotify('服务器发生错误，请稍后再试', 'danger');
+                selfObj.attr("autocomplete", "on").prop("disabled", false);
+            });
+            */
+        }
+
+        /*
+         * 提取通用的通知消息方法
+         * 这里只采用简单的用法，如果想要使用回调或者更多的用法，请查看lyear_js_notify.html页面
+         * @param $msg 提示信息
+         * @param $type 提示类型:'info', 'success', 'warning', 'danger'
+         * @param $delay 毫秒数，例如：1000
+         * @param $icon 图标，例如：'fa fa-user' 或 'glyphicon glyphicon-warning-sign'
+         * @param $from 'top' 或 'bottom' 消息出现的位置
+         * @param $align 'left', 'right', 'center' 消息出现的位置
+         */
+        function showNotify($msg, $type, $delay, $icon, $from, $align) {
+            $type  = $type || 'info';
+            $delay = $delay || 1000;
+            $from  = $from || 'top';
+            $align = $align || 'right';
+            $enter = $type == 'danger' ? 'animated shake' : 'animated fadeInUp';
+
+            jQuery.notify({
+                    icon: $icon,
+                    message: $msg
+                },
+                {
+                    element: 'body',
+                    type: $type,
+                    allow_dismiss: true,
+                    newest_on_top: true,
+                    showProgressbar: false,
+                    placement: {
+                        from: $from,
+                        align: $align
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    z_index: 10800,
+                    delay: $delay,
+                    animate: {
+                        enter: $enter,
+                        exit: 'animated fadeOutDown'
+                    }
+                });
+        }
+    });
+</script>
+
+</body>
+</html>

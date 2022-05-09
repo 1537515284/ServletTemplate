@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+<title>登录页面</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" type="text/css" href="static/css/materialdesignicons.min.css">
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="static/css/animate.min.css">
+<link rel="stylesheet" type="text/css" href="static/css/style.min.css">
+  <!--标签插件-->
+  <link rel="stylesheet" href="static/js/jquery-tags-input/jquery.tagsinput.min.css">
+<style>
+.login-form .has-feedback {
+    position: relative;
+}
+.login-form .has-feedback .form-control {
+    padding-left: 36px;
+}
+.login-form .has-feedback .mdi {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: auto;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    z-index: 4;
+    color: #dcdcdc;
+    display: block;
+    text-align: center;
+    pointer-events: none;
+}
+.login-form .has-feedback.row .mdi {
+    left: 15px;
+}
+.login-form .form-group:last-child,
+.login-right p:last-child {
+    margin-bottom: 0px;
+}
+.login-right {
+    background: #67b26f!important;
+    background: -moz-linear-gradient(45deg,#67b26f 0,#4ca2cd 100%)!important;
+    background: -webkit-linear-gradient(45deg,#67b26f 0,#4ca2cd 100%)!important;
+    background: linear-gradient(45deg,#67b26f 0,#4ca2cd 100%)!important;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#67b26f', endColorstr='#4ca2cd', GradientType=1 )!important;
+}
+.login-box {
+    max-width: 700px;
+}
+.login-right {
+    max-width: 50%;
+}
+
+</style>
+</head>
+  
+<body class="center-vh" style="background-image: url(static/images/login-bg-3.jpg); background-size: cover;">
+<!--页面loading-->
+<!--<div id="lyear-preloader" class="loading">-->
+<!--  <div class="ctn-preloader">-->
+<!--    <div class="round_spinner">-->
+<!--      <div class="spinner"></div>-->
+<!--      <img src="static/images/loading-logo.png" alt="">-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--页面loading end-->
+<div class="bg-translucent p-2">
+  <div class="flex-box bg-white login-box">
+    <div class="login-left p-5">
+      
+      <div class="text-center mb-3 d-sm-none">
+        <a href="index.html"> <img alt="light year admin" src="static/images/logo-sidebar.png"> </a>
+      </div>
+      <form id="login-form" action="#!" method="post" class="login-form">
+        <div class="form-group has-feedback">
+          <span class="mdi mdi-account" aria-hidden="true"></span>
+          <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
+        </div>
+    
+        <div class="form-group has-feedback">
+          <span class="mdi mdi-lock" aria-hidden="true"></span>
+          <input type="password" class="form-control" id="password" name="password" placeholder="密码">
+        </div>
+        
+        <div class="form-group has-feedback row">
+          <div class="col-7">
+            <span class="mdi mdi-check-all form-control-feedback" aria-hidden="true"></span>
+            <input type="text" name="captcha" class="form-control" placeholder="验证码">
+          </div>
+          <div class="col-5 text-right">
+            <img src="/api/getVerificationCode" class="pull-right" id="captcha" style="cursor: pointer;" onclick="this.src=this.src+'?d='+Math.random();" title="点击刷新" alt="captcha">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="rememberme">
+            <label class="custom-control-label not-user-select" for="rememberme">5天内自动登录</label>
+          </div>
+        </div>
+    
+        <div class="form-group">
+          <button class="btn btn-block btn-primary" type="submit">立即登录</button>
+        </div>
+      </form>
+    </div>
+    <div class="login-right p-5 d-none d-sm-block">
+      <p class="mb-3"><img src="static/images/logo.png" class="m-b-md m-t-xs" alt="logo" /></p>
+      <p class="text-white">Light Year Admin V4是一个后台管理系统的HTML模板，基于Bootstrap v4.4.1。</p>
+      <p class="text-white align-self-end">Copyright © 2022 <a href="http://lyear.itshubao.com">LS</a>. All right reserved</p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="static/js/jquery.min.js"></script>
+<script type="text/javascript" src="static/js/main.min.js"></script>
+<script type="text/javascript" src="static/js/jquery-tags-input/jquery.tagsinput.min.js"></script>
+<script type="text/javascript" src="static/js/jquery-validate/jquery.validate.min.js"></script>
+<script type="text/javascript" src="static/js/jquery-validate/messages_zh.min.js"></script>
+<script type="text/javascript" src="static/js/api.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    // 标签
+    var test;
+    if($('.js-tags-input')[0]) {
+      $('.js-tags-input').tagsInput({
+        height: '36px',
+        width: '100%',
+        defaultText: '添加标签',
+        removeWithBackspace: true,
+        delimiter: [',']
+      });
+    }
+
+    $('#login-form').validate({
+      ignore: ".ignore",    // 插件默认不验证隐藏元素,这里可以自定义一个不验证的class,即验证隐藏元素,不验证class为.ignore的元素
+      focusInvalid: false,  // 禁用无效元素的聚焦
+      rules: {
+        'username': {
+          required: true,
+          minlength: 6,
+          maxlength: 16
+        },
+        'password': {
+          required: true,
+          minlength: 6,
+          maxlength: 16
+        },
+        'captcha': {
+          required: true,
+          minlength: 4,
+          maxlength: 4
+        },
+      },
+      errorPlacement: function errorPlacement(error, element) {
+        var $parent = $(element).parents('.form-group');
+        if ($parent.find('.invalid-feedback').length) {
+          return;
+        }
+        $(element).addClass('is-invalid');
+        $parent.append(error.addClass('invalid-feedback'));
+      },
+      highlight: function(element) {
+        var $el = $(element);
+        if ($el.hasClass('js-tags-input')) {
+          $el.next('.tagsinput').addClass('is-invalid');  // tags插件所隐藏的输入框没法实时验证，比较尴尬
+        }
+      },
+      unhighlight: function(element) {
+        $(element).next('.tagsinput').removeClass('is-invalid');
+        $(element).removeClass('is-invalid');
+      },
+      submitHandler: function(form) {
+        let data = $("form").serialize();
+        login(data);
+      }
+    });
+  });
+</script>
+</body>
+</html>
